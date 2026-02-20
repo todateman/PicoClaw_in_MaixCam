@@ -1,0 +1,31 @@
+﻿# Claude Code temporary files
+tmpclaude-*
+
+# Windows artifacts
+nul
+Thumbs.db
+desktop.ini
+
+# macOS artifacts
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor files
+.vscode/
+*.swp
+*.bak
+*~
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+
+# Build artifacts
+node_modules/
+dist/

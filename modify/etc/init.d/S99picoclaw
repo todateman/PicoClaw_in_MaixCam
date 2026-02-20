@@ -1,0 +1,27 @@
+#!/bin/sh
+
+PICOCLAW=/root/picoclaw
+WATCHDOG=/root/picoclaw-watchdog.sh
+LOG=/var/log/picoclaw.log
+WATCHDOG_LOG=/var/log/picoclaw-watchdog.log
+
+start() {
+    echo "Starting PicoClaw watchdog..."
+    HOME=/root nohup $WATCHDOG >> $WATCHDOG_LOG 2>&1 &
+    echo "PicoClaw watchdog started."
+}
+
+stop() {
+    echo "Stopping PicoClaw and watchdog..."
+    killall picoclaw-watchdog.sh 2>/dev/null
+    killall picoclaw 2>/dev/null
+    rm -f /var/run/picoclaw.pid
+    echo "PicoClaw stopped."
+}
+
+case "$1" in
+    start)   start ;;
+    stop)    stop ;;
+    restart) stop; sleep 2; start ;;
+    *) echo "Usage: $0 {start|stop|restart}" ;;
+esac

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+TAILSCALED=/usr/bin/tailscaled
+TAILSCALE=/usr/bin/tailscale
+STATE_DIR=/var/lib/tailscale
+
+start() {
+    echo "Starting tailscaled..."
+    mkdir -p $STATE_DIR
+    $TAILSCALED --state=$STATE_DIR/tailscaled.state &
+    sleep 2
+    $TAILSCALE up
+    echo "tailscaled started."
+}
+
+stop() {
+    echo "Stopping tailscaled..."
+    killall tailscaled 2>/dev/null
+    echo "tailscaled stopped."
+}
+
+case "$1" in
+    start) start ;;
+    stop)  stop ;;
+    restart) stop; sleep 1; start ;;
+    *) echo "Usage: $0 {start|stop|restart}" ;;
+esac

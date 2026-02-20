@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "find \"$PWD\" -maxdepth 1 -name 'tmpclaude-*' -mmin +5 -delete 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

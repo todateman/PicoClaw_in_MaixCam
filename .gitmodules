@@ -1,0 +1,6 @@
+[submodule "MaixPy"]
+	path = MaixPy
+	url = https://github.com/sipeed/MaixPy.git
+[submodule "picoclaw"]
+	path = picoclaw
+	url = https://github.com/sipeed/picoclaw.git
