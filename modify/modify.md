@@ -18,6 +18,7 @@ modify/
     ├── picoclaw-watchdog.sh                        → /root/picoclaw-watchdog.sh
     └── .picoclaw/
         └── workspace/
+            ├── .picoclaw.env.example               → /root/.picoclaw/workspace/.picoclaw.env.example
             ├── camera_snap.sh                      → /root/.picoclaw/workspace/camera_snap.sh
             ├── camera_snap_discode.py              → /root/.picoclaw/workspace/camera_snap_discode.py
             └── skills/
@@ -118,6 +119,7 @@ Discordの接続に必要なwebhook以外の設定は、 `/root/.picoclaw/config
 **ファイル転送:**
 
 ```bash
+scp ./modify/root/.picoclaw/workspace/.picoclaw.env.example root@<MaixCAMのIP>:/root/.picoclaw/workspace/
 scp ./modify/root/.picoclaw/workspace/camera_snap.sh root@<MaixCAMのIP>:/root/.picoclaw/workspace/
 scp ./modify/root/.picoclaw/workspace/camera_snap_discode.py root@<MaixCAMのIP>:/root/.picoclaw/workspace/
 ssh root@<MaixCAMのIP> "mkdir -p /root/.picoclaw/workspace/skills/camera"
@@ -134,12 +136,16 @@ ssh root@<MaixCAMのIP> "
 "
 ```
 
-**WEBHOOK URLの更新:**
+**非公開環境変数ファイルの作成:**
 
-`camera_snap.sh` の `WEBHOOK=` 行を自分の Discord Webhook URL に書き換える:
+テンプレートから非公開ファイルを作成し、Webhook URL を設定する:
 
 ```bash
-ssh root@<MaixCAMのIP> 'sed -i "s|WEBHOOK=.*|WEBHOOK=\"https://discordapp.com/api/webhooks/<ID>/<TOKEN>\"|" /root/.picoclaw/workspace/camera_snap.sh'
+ssh root@<MaixCAMのIP> '
+    cp /root/.picoclaw/workspace/.picoclaw.env.example /root/.picoclaw/workspace/.picoclaw.env &&
+    sed -i "s|WEBHOOK=.*|WEBHOOK=\"https://discordapp.com/api/webhooks/<ID>/<TOKEN>\"|" /root/.picoclaw/workspace/.picoclaw.env &&
+    chmod 600 /root/.picoclaw/workspace/.picoclaw.env
+'
 ```
 
 **動作確認:**

@@ -25,6 +25,7 @@ __pycache__/
 *.pyc
 *.pyo
 .env
+**/.picoclaw.env
 
 # Build artifacts
 node_modules/

@@ -3,8 +3,21 @@
 # Runs Python capture first (releases all maix resources on exit),
 # then uploads via curl in a fresh process.
 
-WEBHOOK="https://discordapp.com/api/webhooks/1473659254798811262/fw6KZcAhaJ12m291pqF8PNCJDD8khjZnKdkUSbddpYr8sV05C570yK0f-1y7-kIRn-Te"
+ENV_FILE="/root/.picoclaw/workspace/.picoclaw.env"
 SNAPSHOT="/root/.picoclaw/workspace/snapshot.jpg"
+
+if [ ! -r "$ENV_FILE" ]; then
+    echo "Error: env file not found: $ENV_FILE" >&2
+    exit 1
+fi
+
+# shellcheck source=/dev/null
+. "$ENV_FILE"
+
+if [ -z "$WEBHOOK" ]; then
+    echo "Error: WEBHOOK is empty in $ENV_FILE" >&2
+    exit 1
+fi
 
 # Step 1: Capture photo (Python exits cleanly, releasing ISP)
 # Discard Python stdout (MaixPy init logs) to avoid polluting $SNAPSHOT path
